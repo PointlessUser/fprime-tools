@@ -428,6 +428,7 @@ class CMakeHandler:
         :param full: full re-generate of the cache. Default: false, attempt to build 'noop' target instead
         """
         if full:
+            # Full rebuild of the cache
             environment = {}
             run_args = ["--build", build_dir]
             if self.verbose:
@@ -442,6 +443,7 @@ class CMakeHandler:
                 print_output=self.verbose,
             )
         else:
+            # Attempt to build the noop target, which will refresh the cache if it is out of date
             if self.verbose:
                 print("[CMAKE] Checking CMake cache for rebuild")
             self.execute_known_target(

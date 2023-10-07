@@ -6,7 +6,9 @@ to load the settings from the settings.default file that is part of the F prime 
 
 @author mstarch
 """
+
 import configparser
+import contextlib
 import os
 from enum import Enum
 from functools import partial
@@ -229,11 +231,9 @@ class IniSettings:
         parser.optionxform = str
         parser.read(env_file)
         env_dict = {}
-        try:
+        with contextlib.suppress(configparser.NoSectionError): # Ignore missing environment
             for key, value in parser.items("environment"):
                 env_dict[key] = value
-        except configparser.NoSectionError:
-            pass  # Ignore missing environment
         return env_dict
 
 
